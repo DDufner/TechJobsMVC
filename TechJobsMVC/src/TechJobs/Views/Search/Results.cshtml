@@ -1,0 +1,19 @@
+﻿<h1>@ViewBag.Title </h1>
+
+@{  
+}
+
+<ul>
+    @foreach (Dictionary<string, string> job in ViewBag.jobs)
+
+    {
+        <li>
+            @foreach (string column  in job.Values)
+            {
+                <a asp-controller="Search" asp-action="Results">@column</a> 
+            }
+        </li>
+        
+    }
+
+</ul>
