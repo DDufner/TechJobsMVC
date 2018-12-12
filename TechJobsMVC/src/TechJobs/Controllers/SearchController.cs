@@ -19,6 +19,7 @@ namespace TechJobs.Controllers
         [Route("/Search/Results")]
         public IActionResult Results(string searchType, string searchTerm)
         {
+            ViewBag.columns = ListController.columnChoices;
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>(); //takes a list of dictionaries (aka joblist) from JobData.cs
             if (searchType.Equals("all"))
             {
@@ -27,23 +28,15 @@ namespace TechJobs.Controllers
                 ViewBag.title = "All Jobs";  //sets a viewbag for titles and names it 'all jobs'
                 return View("Index"); //displays in view all items matching searchTerm in JobData
             }
+
             else 
             {
-                //use column for key so it works w/ jobdata.cs code 
+               jobs = JobData.FindByColumnAndValue(searchType, searchTerm); 
 
-                jobs = JobData.FindByColumnAndValue(searchTerm, searchType); 
-                //*foreach (Dictionary<string, string> job in jobs);
-                //{
-
-                  //      jobs.Add(job);
-                    //}
-                    //List<string> job = JobData.FindByColumnAndValue(searchTerm, searchType);  //searches for 'searchTerm' in all columns 
-                    ViewBag.title = "All " + JobData.FindByColumnAndValue(searchTerm, searchType) + " Values"; //makes a viewbag of all searchTerms found in column
-                //ViewBag.searchTerm = searchTerm; 
+                ViewBag.title = "All " +  searchTerm + " Values"; //makes a viewbag of all searchTerms found in column
                 ViewBag.jobs = jobs;  //creates viewbag for columns with matching search term. 
                 return View("Index"); //displays at view 
                 }
-                //have return outside so either if/else gets passed.  
             }
 
             }

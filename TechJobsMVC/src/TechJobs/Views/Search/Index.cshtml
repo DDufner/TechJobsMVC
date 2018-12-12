@@ -7,23 +7,11 @@
         @foreach (KeyValuePair<string, string> column in ViewBag.columns)
         {
             <span>
-                @if (@column.Key == "all")
-                {
-                    <input type="radio"
-                           name="searchType"
-                           id="@column.Key"
-                           value="@column.Key"
-                           checked />
-
-                }
-                else
-                {
-                    <input type="radio"
-                           name="searchType"
-                           id="@column.Key"
-                           value="@column.Key" />
-                }
-
+                <input type="radio"
+                       name="searchType"
+                       id="@column.Key"
+                       value="@column.Key"
+                       checked="@column.Key == 'all''" />
                 <label for="@column.Key">@column.Value</label>
             </span>
         }
@@ -42,22 +30,23 @@
 @if (ViewBag.jobs != null)
 {
 
-    <h3>@ViewBag.column.Count Result(s)</h3>
+    <h3>@ViewBag.jobs.Count Result(s)</h3>
+    
+        @foreach (Dictionary<string, string> job in ViewBag.jobs) 
 
-    <ul>
-           @foreach (Dictionary<string, string> job in ViewBag.jobs)
+        {
+        <table class="job-listing"> 
 
-    {
-        <li>
-            @foreach (string column  in job.Values)
+            @foreach (KeyValuePair<string, string> jobPart in job) 
             {
-                <a asp-controller="Search" asp-action="Results">@column</a> 
+            <tr>
+                <td>@jobPart.Key</td>
+                <td>@jobPart.Value</td>
+            </tr>            
             }
-        </li>
-        
-    }
-
-    </ul>
-
-    // TODO #2 - Loop over jobs dictionary and display all job fields
+        </table>
+                <!--reformat to a table, then tag w/ 'class= (css code)'-->
+                }
+            
+       
 }
